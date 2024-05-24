@@ -1,0 +1,38 @@
+ALERT_REPORTS = True
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
+ALERT_REPORTS_NOTIFICATION_METHODS = ["slack"]
+SLACK_API_TOKEN = "<COMPANY_token>’"
+SLACK_CHANNEL = "#<analytics_alerts_channel_name>"
+# Email Configuration
+AUTH_TYPE = "AUTH_OAUTH"
+SMTP_HOST = "<smtp.your-email-provider.com>"
+SMTP_STARTTLS = True
+SMTP_SSL = False
+SMTP_USER = "<your-email@domain.com>"
+SMTP_PORT = 587
+SMTP_PASSWORD = "<your-email-password>"
+SMTP_MAIL_FROM = "analytics<@domain.com>"
+
+ROW_LIMIT = 10000
+
+REDIS_HOST = "redis"
+REDIS_PORT = "6379"
+REDIS_CELERY_DB = "0"
+REDIS_RESULTS_DB = "1"
+
+
+CACHE_DEFAULT_TIMEOUT = 300
+CACHE_KEY_PREFIX = "superset_"
+CACHE_REDIS_HOST = "redis"
+CACHE_REDIS_PORT = 6379
+CACHE_REDIS_DB = 1
+CACHE_REDIS_URL = "redis://redis:6379/1"
+
+# FEATURE_FLAGS
+
+DASHBOARD_RBAC = True
+DASHBOARD_NATIVE_FILTERS = True
+ALERTS_V2 = True
+VERSIONED_EXPORT = True
+EMBEDDED_SUPERSET = True
+DASHBOARD_CROSS_FILTERS = True

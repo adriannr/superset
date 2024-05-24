@@ -22,9 +22,16 @@
 #
 import logging
 import os
+from smtplib import SMTP_SSL
 
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
+from flask_appbuilder.security.manager import AUTH_OAUTH
+from custom_sso_security_manager import CustomSsoSecurityManager
+
+CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager
+
+import config_custom as cc
 
 logger = logging.getLogger()
 
@@ -54,20 +61,21 @@ SQLALCHEMY_EXAMPLES_URI = (
     f"{EXAMPLES_HOST}:{EXAMPLES_PORT}/{EXAMPLES_DB}"
 )
 
-REDIS_HOST = os.getenv("REDIS_HOST", "redis")
-REDIS_PORT = os.getenv("REDIS_PORT", "6379")
-REDIS_CELERY_DB = os.getenv("REDIS_CELERY_DB", "0")
-REDIS_RESULTS_DB = os.getenv("REDIS_RESULTS_DB", "1")
+REDIS_HOST = os.getenv("REDIS_HOST", cc.REDIS_HOST)
+REDIS_PORT = os.getenv("REDIS_PORT", cc.REDIS_PORT)
+REDIS_CELERY_DB = os.getenv("REDIS_CELERY_DB", cc.REDIS_CELERY_DB)
+REDIS_RESULTS_DB = os.getenv("REDIS_RESULTS_DB", cc.REDIS_RESULTS_DB)
 
 RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
 
 CACHE_CONFIG = {
     "CACHE_TYPE": "RedisCache",
-    "CACHE_DEFAULT_TIMEOUT": 300,
-    "CACHE_KEY_PREFIX": "superset_",
+    "CACHE_DEFAULT_TIMEOUT": cc.CACHE_DEFAULT_TIMEOUT,
+    "CACHE_KEY_PREFIX": cc.CACHE_KEY_PREFIX,
     "CACHE_REDIS_HOST": REDIS_HOST,
     "CACHE_REDIS_PORT": REDIS_PORT,
     "CACHE_REDIS_DB": REDIS_RESULTS_DB,
+    "CACHE_REDIS_URL": cc.CACHE_REDIS_URL,
 }
 DATA_CACHE_CONFIG = CACHE_CONFIG
 
@@ -92,13 +100,67 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True}
-ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": cc.ALERT_REPORTS,
+    "DASHBOARD_RBAC": cc.DASHBOARD_RBAC,
+    # doesn't exist "DASHBOARD_NATIVE_FILTERS": cc.DASHBOARD_NATIVE_FILTERS,
+    # doesn't exist "ALERTS_V2": cc.ALERTS_V2,
+    # doesn't exist "VERSIONED_EXPORT": cc.VERSIONED_EXPORT,
+    "EMBEDDED_SUPERSET": cc.EMBEDDED_SUPERSET,
+    # doesn't exist "DASHBOARD_CROSS_FILTERS": cc.DASHBOARD_CROSS_FILTERS,
+}
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = cc.ALERT_REPORTS_NOTIFICATION_DRY_RUN
+
+SMTP_HOST = cc.SMTP_HOST
+SMTP_HOST = cc.SMTP_PORT
+SMTP_STARTTLS = cc.SMTP_STARTTLS
+SMTP_SSL = cc.SMTP_SSL
+SMTP_USER = cc.SMTP_USER
+SMTP_PASSWORD = cc.SMTP_PASSWORD
+SMTP_MAIL_FROM = cc.SMTP_MAIL_FROM
+
+
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
 # The base URL for the email report hyperlinks.
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
+
+SLACK_API_TOKEN = cc.SLACK_API_TOKEN
+
+
+# Set the authentication type to OAuth
+AUTH_TYPE = AUTH_OAUTH
+
+OAUTH_PROVIDERS = [
+    {
+        "name": "egaSSO",
+        "token_key": "access_token",  # Name of the token in the response of access_token_url
+        "icon": "fa-address-card",  # Icon for the provider
+        "remote_app": {
+            "client_id": "myClientId",  # Client Id (Identify Superset application)
+            "client_secret": "MySecret",  # Secret for this Client Id (Identify Superset application)
+            "client_kwargs": {"scope": "read"},  # Scope for the Authorization
+            "access_token_method": "POST",  # HTTP Method to call access_token_url
+            "access_token_params": {  # Additional parameters for calls to access_token_url
+                "client_id": "myClientId"
+            },
+            "jwks_uri": "https://myAuthorizationServe/adfs/discovery/keys",  # may be required to generate token
+            "access_token_headers": {  # Additional headers for calls to access_token_url
+                "Authorization": "Basic Base64EncodedClientIdAndSecret"
+            },
+            "api_base_url": "https://myAuthorizationServer/oauth2AuthorizationServer/",
+            "access_token_url": "https://myAuthorizationServer/oauth2AuthorizationServer/token",
+            "authorize_url": "https://myAuthorizationServer/oauth2AuthorizationServer/authorize",
+        },
+    }
+]
+
+# Will allow user self registration, allowing to create Flask users from Authorized User
+AUTH_USER_REGISTRATION = True
+
+# The default user self registration role
+AUTH_USER_REGISTRATION_ROLE = "Public"
 
 #
 # Optionally import superset_config_docker.py (which will have been included on
