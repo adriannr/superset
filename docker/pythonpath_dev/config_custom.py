@@ -8,8 +8,8 @@ SLACK_API_TOKEN = "<COMPANY_token>’"
 SLACK_CHANNEL = "#<analytics_alerts_channel_name>"
 # Email Configuration
 AUTH_TYPE = "AUTH_OAUTH"
-SUPERSET_AUTH_KEY = ""
-SUPERSET_AUTH_SECRET = ""
+SUPERSET_AUTH_KEY = "321233323695-6jlqa3h39d68hv6dp299pn9kjbos7r6c.apps.googleusercontent.com"
+SUPERSET_AUTH_SECRET = "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"
 
 SMTP_HOST = "smtp.gmail.com" 
 SMTP_STARTTLS = True

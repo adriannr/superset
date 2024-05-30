@@ -138,16 +138,17 @@ OAUTH_PROVIDERS = [
         'whitelist': "gmail.com",
         'icon': 'fa-google',
         'token_key': 'access_token',
-        'remote_app': {
-            'base_url': 'https://www.googleapis.com/oauth2/v2/',
-            'request_token_params': {
-                'scope': 'https://www.googleapis.com/auth/userinfo.email'
+        "remote_app": {
+            "api_base_url": "<https://www.googleapis.com/oauth2/v2/>",
+            "client_kwargs": {
+                "scope": "email profile"
             },
-            'request_token_url': None,
-            'access_token_url': 'https://accounts.google.com/o/oauth2/token',
-            'authorize_url': 'https://accounts.google.com/o/oauth2/auth',
-            'consumer_key': cc.SUPERSET_AUTH_KEY,
-            'consumer_secret': cc.SUPERSET_AUTH_SECRET
+            "request_token_url": None,
+            "access_token_url": "<https://oauth2.googleapis.com/token>",
+            "authorize_url": "<https://accounts.google.com/o/oauth2/auth>",
+            "client_id": cc.SUPERSET_AUTH_KEY,
+            "client_secret": cc.SUPERSET_AUTH_SECRET,
+
         }
     }
 ]
