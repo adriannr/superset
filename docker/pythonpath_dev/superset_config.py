@@ -134,6 +134,26 @@ AUTH_TYPE = AUTH_OAUTH
 
 OAUTH_PROVIDERS = [
     {
+        'name': 'google',
+        'whitelist': "gmail.com",
+        'icon': 'fa-google',
+        'token_key': 'access_token',
+        'remote_app': {
+            'base_url': 'https://www.googleapis.com/oauth2/v2/',
+            'request_token_params': {
+                'scope': 'https://www.googleapis.com/auth/userinfo.email'
+            },
+            'request_token_url': None,
+            'access_token_url': 'https://accounts.google.com/o/oauth2/token',
+            'authorize_url': 'https://accounts.google.com/o/oauth2/auth',
+            'consumer_key': cc.SUPERSET_AUTH_KEY,
+            'consumer_secret': cc.SUPERSET_AUTH_SECRET
+        }
+    }
+]
+
+'''OAUTH_PROVIDERS = [
+    {
         "name": "egaSSO",
         "token_key": "access_token",  # Name of the token in the response of access_token_url
         "icon": "fa-address-card",  # Icon for the provider
@@ -154,7 +174,7 @@ OAUTH_PROVIDERS = [
             "authorize_url": "https://myAuthorizationServer/oauth2AuthorizationServer/authorize",
         },
     }
-]
+]'''
 
 # Will allow user self registration, allowing to create Flask users from Authorized User
 AUTH_USER_REGISTRATION = True

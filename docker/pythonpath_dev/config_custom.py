@@ -8,13 +8,16 @@ SLACK_API_TOKEN = "<COMPANY_token>’"
 SLACK_CHANNEL = "#<analytics_alerts_channel_name>"
 # Email Configuration
 AUTH_TYPE = "AUTH_OAUTH"
-SMTP_HOST = "<smtp.your-email-provider.com>"
+SUPERSET_AUTH_KEY = ""
+SUPERSET_AUTH_SECRET = ""
+
+SMTP_HOST = "smtp.gmail.com" 
 SMTP_STARTTLS = True
 SMTP_SSL = False
-SMTP_USER = "<your-email@domain.com>"
+SMTP_USER = "fethu@mesheddata.com"
 SMTP_PORT = 587
 SMTP_PASSWORD = "<your-email-password>"
-SMTP_MAIL_FROM = "analytics<@domain.com>"
+SMTP_MAIL_FROM = "fethu@mesheddata.com"
 
 ROW_LIMIT = 10000
 
