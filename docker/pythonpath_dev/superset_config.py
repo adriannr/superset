@@ -139,13 +139,13 @@ OAUTH_PROVIDERS = [
         'icon': 'fa-google',
         'token_key': 'access_token',
         "remote_app": {
-            "api_base_url": "<https://www.googleapis.com/oauth2/v2/>",
+            "api_base_url": "https://www.googleapis.com/oauth2/v2/",
             "client_kwargs": {
                 "scope": "email profile"
             },
             "request_token_url": None,
-            "access_token_url": "<https://oauth2.googleapis.com/token>",
-            "authorize_url": "<https://accounts.google.com/o/oauth2/auth>",
+            "access_token_url": "https://oauth2.googleapis.com/token",
+            "authorize_url": "https://accounts.google.com/o/oauth2/auth",
             "client_id": cc.SUPERSET_AUTH_KEY,
             "client_secret": cc.SUPERSET_AUTH_SECRET,
 
