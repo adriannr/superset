@@ -131,6 +131,7 @@ SLACK_API_TOKEN = cc.SLACK_API_TOKEN
 
 # Set the authentication type to OAuth
 AUTH_TYPE = AUTH_OAUTH
+ENABLE_PROXY_FIX = True
 
 OAUTH_PROVIDERS = [
     {
