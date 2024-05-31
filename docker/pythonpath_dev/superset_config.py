@@ -135,6 +135,25 @@ ENABLE_PROXY_FIX = True
 
 OAUTH_PROVIDERS = [
     {
+        "name": "google",
+        "icon": "fa-google",
+        "token_key": "access_token",
+        "remote_app": {
+            "client_id": cc.SUPERSET_AUTH_KEY,
+            "client_secret": cc.SUPERSET_AUTH_SECRET,
+            "api_base_url": "https://www.googleapis.com/oauth2/v2/",
+            "client_kwargs": {"scope": "email profile"},
+            "request_token_url": None,
+            "access_token_url": "https://accounts.google.com/o/oauth2/token",
+            "authorize_url": "https://accounts.google.com/o/oauth2/auth",
+            "jwks_uri": "https://www.googleapis.com/oauth2/v3/certs",
+        }
+    }
+    
+]
+
+'''OAUTH_PROVIDERS = [
+    {
         'name': 'google',
         'whitelist': "gmail.com",
         'icon': 'fa-google',
@@ -151,30 +170,6 @@ OAUTH_PROVIDERS = [
             "client_secret": cc.SUPERSET_AUTH_SECRET,
 
         }
-    }
-]
-
-'''OAUTH_PROVIDERS = [
-    {
-        "name": "egaSSO",
-        "token_key": "access_token",  # Name of the token in the response of access_token_url
-        "icon": "fa-address-card",  # Icon for the provider
-        "remote_app": {
-            "client_id": "myClientId",  # Client Id (Identify Superset application)
-            "client_secret": "MySecret",  # Secret for this Client Id (Identify Superset application)
-            "client_kwargs": {"scope": "read"},  # Scope for the Authorization
-            "access_token_method": "POST",  # HTTP Method to call access_token_url
-            "access_token_params": {  # Additional parameters for calls to access_token_url
-                "client_id": "myClientId"
-            },
-            "jwks_uri": "https://myAuthorizationServe/adfs/discovery/keys",  # may be required to generate token
-            "access_token_headers": {  # Additional headers for calls to access_token_url
-                "Authorization": "Basic Base64EncodedClientIdAndSecret"
-            },
-            "api_base_url": "https://myAuthorizationServer/oauth2AuthorizationServer/",
-            "access_token_url": "https://myAuthorizationServer/oauth2AuthorizationServer/token",
-            "authorize_url": "https://myAuthorizationServer/oauth2AuthorizationServer/authorize",
-        },
     }
 ]'''
 
