@@ -27,9 +27,9 @@ from smtplib import SMTP_SSL
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
 from flask_appbuilder.security.manager import AUTH_OAUTH
-from custom_sso_security_manager import CustomSsoSecurityManager
+#from custom_sso_security_manager import CustomSsoSecurityManager
 
-CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager
+#CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager
 
 import config_custom as cc
 
