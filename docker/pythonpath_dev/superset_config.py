@@ -27,13 +27,12 @@ from smtplib import SMTP_SSL
 from celery.schedules import crontab
 from flask_caching.backends.filesystemcache import FileSystemCache
 from flask_appbuilder.security.manager import AUTH_OAUTH
-#from custom_sso_security_manager import CustomSsoSecurityManager
-
-#CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager
 
 import config_custom as cc
+from superset.config import SECRET_KEY
 
 logger = logging.getLogger()
+
 
 DATABASE_DIALECT = os.getenv("DATABASE_DIALECT")
 DATABASE_USER = os.getenv("DATABASE_USER")
@@ -136,6 +135,7 @@ ENABLE_PROXY_FIX = True
 OAUTH_PROVIDERS = [
     {
         "name": "google",
+        "whitelist": ["@mesheddata.com"],
         "icon": "fa-google",
         "token_key": "access_token",
         "remote_app": {
@@ -177,7 +177,7 @@ OAUTH_PROVIDERS = [
 AUTH_USER_REGISTRATION = True
 
 # The default user self registration role
-AUTH_USER_REGISTRATION_ROLE = "Public"
+AUTH_USER_REGISTRATION_ROLE = "Admin"
 
 #
 # Optionally import superset_config_docker.py (which will have been included on

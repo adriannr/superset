@@ -6,7 +6,7 @@ ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 ALERT_REPORTS_NOTIFICATION_METHODS = ["slack"]
 SLACK_API_TOKEN = "<COMPANY_token>’"
 SLACK_CHANNEL = "#<analytics_alerts_channel_name>"
-# Email Configuration
+# Auth Configuration
 AUTH_TYPE = "AUTH_OAUTH"
 SUPERSET_AUTH_KEY = ""
 SUPERSET_AUTH_SECRET = ""
