@@ -91,10 +91,6 @@ class CeleryConfig:
             "task": "reports.scheduler",
             "schedule": crontab(minute="*", hour="*"),
         },
-        "email_reports": {
-            "task": "email_reports.send",
-            "schedule": crontab(minute="*", hour="*"),
-        },
         "reports.prune_log": {
             "task": "reports.prune_log",
             "schedule": crontab(minute=10, hour=0),
