@@ -18,6 +18,7 @@
 
 set -eo pipefail
 
+
 REQUIREMENTS_LOCAL="/app/docker/requirements-local.txt"
 # If Cypress run – overwrite the password for admin and export env variables
 if [ "$CYPRESS_CONFIG" == "true" ]; then
@@ -37,9 +38,29 @@ fi
 
 case "${1}" in
   worker)
+    echo "Starting Gecko"
+    GECKODRIVER_VERSION=v0.33.0
+    FIREFOX_VERSION=117.0.1
+    #````
+    apt-get update -qq 
+    apt-get install -yqq --no-install-recommends wget bzip2 
+    apt-get -y install libgtk-3-0 libasound2 libdbus-glib-1-2 libx11-xcb1
+
+    echo "Installing Gecko"
+    wget -q https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz -O - | tar xfz - -C /usr/local/bin 
+
+    #M1
+    #apt install gnupg2 software-properties-common -y
+
+    echo "Installing Firefox"
+    wget -q https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2 -O - | tar xfj - -C /opt 
+    ln -s /opt/firefox/firefox /usr/local/bin/firefox 
+    apt-get autoremove -yqq --purge wget bzip2 && rm -rf /var/[log,tmp]/* /tmp/* /var/lib/apt/lists/*
+
     echo "Starting Celery worker..."
     celery --app=superset.tasks.celery_app:app worker -O fair -l INFO
-    ;;
+    
+        ;;
   beat)
     echo "Starting Celery beat..."
     rm -f /tmp/celerybeat.pid
