@@ -22,6 +22,7 @@
 #
 import logging
 import os
+from pickle import TRUE
 from smtplib import SMTP_SSL
 
 from celery.schedules import crontab
@@ -29,7 +30,7 @@ from flask_caching.backends.filesystemcache import FileSystemCache
 from flask_appbuilder.security.manager import AUTH_OAUTH
 
 import config_custom as cc
-from superset.config import SECRET_KEY
+from superset.config import EMAIL_NOTIFICATIONS, SECRET_KEY
 
 logger = logging.getLogger()
 
@@ -90,6 +91,10 @@ class CeleryConfig:
             "task": "reports.scheduler",
             "schedule": crontab(minute="*", hour="*"),
         },
+        "email_reports": {
+            "task": "email_reports.send",
+            "schedule": crontab(minute="*", hour="*"),
+        },
         "reports.prune_log": {
             "task": "reports.prune_log",
             "schedule": crontab(minute=10, hour=0),
@@ -110,8 +115,9 @@ FEATURE_FLAGS = {
 }
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = cc.ALERT_REPORTS_NOTIFICATION_DRY_RUN
 
+EMAIL_NOTIFICATIONS = True
 SMTP_HOST = cc.SMTP_HOST
-SMTP_HOST = cc.SMTP_PORT
+SMTP_PORT = cc.SMTP_PORT
 SMTP_STARTTLS = cc.SMTP_STARTTLS
 SMTP_SSL = cc.SMTP_SSL
 SMTP_USER = cc.SMTP_USER
@@ -119,8 +125,10 @@ SMTP_PASSWORD = cc.SMTP_PASSWORD
 SMTP_MAIL_FROM = cc.SMTP_MAIL_FROM
 
 
+
 WEBDRIVER_BASEURL = "http://superset:8088/"  # When using docker compose baseurl should be http://superset_app:8088/
 # The base URL for the email report hyperlinks.
+# WEBDRIVER_BASEURL_USER_FRIENDLY = "http://localhost:8088" #WEBDRIVER_BASEURL
 WEBDRIVER_BASEURL_USER_FRIENDLY = WEBDRIVER_BASEURL
 
 SQLLAB_CTAS_NO_LIMIT = True
@@ -135,7 +143,7 @@ ENABLE_PROXY_FIX = True
 OAUTH_PROVIDERS = [
     {
         "name": "google",
-        "whitelist": ["@mesheddata.com"],
+        # "whitelist": ["@mesheddata.com"],
         "icon": "fa-google",
         "token_key": "access_token",
         "remote_app": {
@@ -147,12 +155,11 @@ OAUTH_PROVIDERS = [
             "access_token_url": "https://accounts.google.com/o/oauth2/token",
             "authorize_url": "https://accounts.google.com/o/oauth2/auth",
             "jwks_uri": "https://www.googleapis.com/oauth2/v3/certs",
-        }
+        },
     }
-    
 ]
 
-'''OAUTH_PROVIDERS = [
+"""OAUTH_PROVIDERS = [
     {
         'name': 'google',
         'whitelist': "gmail.com",
@@ -171,7 +178,7 @@ OAUTH_PROVIDERS = [
 
         }
     }
-]'''
+]"""
 
 # Will allow user self registration, allowing to create Flask users from Authorized User
 AUTH_USER_REGISTRATION = True
