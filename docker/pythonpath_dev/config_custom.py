@@ -2,7 +2,7 @@ APP_NAME = "Company Name"
 
 
 ALERT_REPORTS = True
-ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
+ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 ALERT_REPORTS_NOTIFICATION_METHODS = ["slack"]
 SLACK_API_TOKEN = "<COMPANY_token>’"
 SLACK_CHANNEL = "#<analytics_alerts_channel_name>"
@@ -16,7 +16,7 @@ SMTP_STARTTLS = True
 SMTP_SSL = False
 SMTP_USER = "fethu@mesheddata.com"
 SMTP_PORT = 587
-SMTP_PASSWORD = "<your-email-password>"
+SMTP_PASSWORD = ""
 SMTP_MAIL_FROM = "fethu@mesheddata.com"
 
 ROW_LIMIT = 10000
